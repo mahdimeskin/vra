@@ -8,14 +8,16 @@ void loggedInMenu();
 void rentCarMenu();
 void rentBikeMenu();
 
-bool usernameExists(string username) {
-    for (auto& user : users)
+bool usernameExists(string username)
+{
+    for (auto &user : users)
         if (user.username == username)
             return true;
     return false;
 }
 
-void signUp() {
+void signUp()
+{
     cout << "****************\n";
     cout << "Sign Up\n";
     cout << "****************\n";
@@ -24,7 +26,8 @@ void signUp() {
 
     cout << "Enter username: ";
     cin >> username;
-    if (usernameExists(username)) {
+    if (usernameExists(username))
+    {
         cout << "Username already exists! Try another one.\n";
         return;
     }
@@ -34,12 +37,14 @@ void signUp() {
     cout << "Signed up successfully!\n";
 }
 
-void login() {
-    if (loggedInUser != nullptr) {
+void login()
+{
+    if (loggedInUser != nullptr)
+    {
         cout << "You are already logged in as " << loggedInUser->username << ".\n";
         return;
     }
-    
+
     cout << "****************\n";
     cout << "Login\n";
     cout << "****************\n";
@@ -50,8 +55,10 @@ void login() {
     cout << "Enter password: ";
     cin >> password;
 
-    for (auto& user : users) {
-        if (user.username == username && user.password == password) {
+    for (auto &user : users)
+    {
+        if (user.username == username && user.password == password)
+        {
             loggedInUser = &user;
             cout << "Logged in successfully! Welcome, " << username << ".\n";
             loggedInMenu();
@@ -61,16 +68,21 @@ void login() {
     cout << "Login failed!\n";
 }
 
-void logout() {
-    if (loggedInUser == nullptr) {
+void logout()
+{
+    if (loggedInUser == nullptr)
+    {
         cout << "No user is currently logged in.\n";
-    } else {
+    }
+    else
+    {
         cout << "User " << loggedInUser->username << " has been logged out.\n";
         loggedInUser = nullptr;
     }
 }
 
-void menu() {
+void menu()
+{
     cout << "\n--- MENU ---\n";
     cout << "1. Sign Up\n";
     cout << "2. Log In\n";
@@ -78,37 +90,42 @@ void menu() {
     cout << "Enter your choice: ";
 }
 
-void appFirstPage() {
+void appFirstPage()
+{
     cout << "Welcome to the vehicle rent application!\n\n";
     int choice;
     bool running = true;
 
-    while (running) {
+    while (running)
+    {
         menu();
         cin >> choice;
-        switch (choice) {
-            case 1:
-                signUp();
-                break;
-            case 2:
-                login();
-                break;
-            case 3:
-                cout << "Exiting...\n";
-                running = false;
-                break;
-            default:
-                cout << "Invalid choice! Try again.\n";
-                break;
+        switch (choice)
+        {
+        case 1:
+            signUp();
+            break;
+        case 2:
+            login();
+            break;
+        case 3:
+            cout << "Exiting...\n";
+            running = false;
+            break;
+        default:
+            cout << "Invalid choice! Try again.\n";
+            break;
         }
     }
 }
 
-void loggedInMenu() {
+void loggedInMenu()
+{
     int choice;
     bool loggedIn = true;
 
-    while (loggedIn) {
+    while (loggedIn)
+    {
         cout << "\n--- Logged In Menu ---\n";
         cout << "1. Show Cars\n";
         cout << "2. Show Bikes\n";
@@ -116,28 +133,32 @@ void loggedInMenu() {
         cout << "Enter your choice: ";
         cin >> choice;
 
-        switch (choice) {
-            case 1:
-                rentCarMenu();
-                break;
-            case 2:
-                rentBikeMenu();
-                break;
-            case 3:
-                logout();
-                loggedIn = false;
-                break;
-            default:
-                cout << "Invalid choice. Try again.\n";
+        switch (choice)
+        {
+        case 1:
+            rentCarMenu();
+            break;
+        case 2:
+            rentBikeMenu();
+            break;
+        case 3:
+            logout();
+            loggedIn = false;
+            break;
+        default:
+            cout << "Invalid choice. Try again.\n";
         }
     }
 }
 
-void rentCarMenu() {
+void rentCarMenu()
+{
     int choice;
-    while (true) {
+    while (true)
+    {
         cout << "\n--- Available Cars ---\n";
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             cout << i + 1 << ". " << cars[i].Brand << " (" << cars[i].carType << ") - "
                  << cars[i].Color << " - $" << cars[i].pricePerDay << "/day\n";
         }
@@ -145,12 +166,14 @@ void rentCarMenu() {
         cout << "Enter car number to rent or 4 to go back: ";
         cin >> choice;
 
-        if (choice >= 1 && choice <= 3) {
+        if (choice >= 1 && choice <= 3)
+        {
             int days;
             cout << "For how many days do you want to rent the " << cars[choice - 1].Brand << "? ";
             cin >> days;
 
-            while (cin.fail() || days <= 0) {
+            while (cin.fail() || days <= 0)
+            {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a positive number: ";
@@ -169,20 +192,26 @@ void rentCarMenu() {
             string temp;
             cout << "Press any key to go back to car list...";
             cin >> temp;
-        } else if (choice == 4) {
+        }
+        else if (choice == 4)
+        {
             return;
-        } else {
+        }
+        else
+        {
             cout << "Invalid choice. Try again.\n";
         }
     }
 }
 
-
-void rentBikeMenu() {
+void rentBikeMenu()
+{
     int choice;
-    while (true) {
+    while (true)
+    {
         cout << "\n--- Available Bikes ---\n";
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             cout << i + 1 << ". " << bikes[i].Brand << " (" << bikes[i].Type << ") - "
                  << bikes[i].Color << " - $" << bikes[i].pricePerDay << "/day\n";
         }
@@ -190,17 +219,19 @@ void rentBikeMenu() {
         cout << "Enter bike number to rent or 4 to go back: ";
         cin >> choice;
 
-        if (choice >= 1 && choice <= 3) {
+        if (choice >= 1 && choice <= 3)
+        {
             int days;
             cout << "For how many days do you want to rent the " << bikes[choice - 1].Brand << "? ";
             cin >> days;
-            
-            while (cin.fail() || days <= 0) {
+
+            while (cin.fail() || days <= 0)
+            {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a positive number: ";
                 cin >> days;
-            }            
+            }
             float total = days * bikes[choice - 1].pricePerDay;
 
             cout << "\n=========== RENTAL RECEIPT ===========\n";
@@ -214,9 +245,13 @@ void rentBikeMenu() {
             string temp;
             cout << "Press any key to go back to bike list...";
             cin >> temp;
-        } else if (choice == 4) {
+        }
+        else if (choice == 4)
+        {
             return;
-        } else {
+        }
+        else
+        {
             cout << "Invalid choice. Try again.\n";
         }
     }

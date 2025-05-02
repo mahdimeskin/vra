@@ -2,7 +2,8 @@
 #include "functions.h"
 using namespace std;
 
-int main() {
+int main()
+{
     appFirstPage();
     return 0;
 }
