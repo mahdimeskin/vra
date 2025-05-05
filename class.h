@@ -47,12 +47,14 @@ public:
 vector<User> users;
 User *loggedInUser = nullptr;
 
-Bike bikes[] = {
-    Bike(2, "black", "track", "Aluminium"),
-    Bike(3, "green", "viva", "Carbon Fiber"),
-    Bike(4.5, "red", "overlord", "Super Deluxe")};
-
-Car cars[] = {
+inline vector<Car> cars = {
     Car(10, "white", "Ford Mondeo", "sedan", 150),
     Car(17, "blue", "BMW X3", "SUV", 200),
-    Car(30, "black", "Benz C-class", "Luxury", 260)};
+    Car(30, "black", "Benz C-class", "Luxury", 260)
+};
+
+inline vector<Bike> bikes = {
+    Bike(2, "black", "track", "Aluminium"),
+    Bike(3, "green", "viva", "Carbon Fiber"),
+    Bike(4.5, "red", "overlord", "Super Deluxe")
+};

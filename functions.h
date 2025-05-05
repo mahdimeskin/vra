@@ -2,6 +2,8 @@
 #include <vector>
 #include "class.h"
 #include <limits>
+#include <conio.h>
+#include <string>
 using namespace std;
 
 void loggedInMenu();
@@ -32,7 +34,34 @@ void signUp()
         return;
     }
     cout << "Enter password: ";
-    cin >> password;
+    password.clear();
+
+    int ch;
+
+    while ((ch = _getch()) != '\r')
+    {
+
+        if (ch == '\b')
+        {
+
+            if (!password.empty())
+            {
+
+                password.pop_back();
+
+                cout << "\b \b";
+            }
+        }
+        else
+        {
+
+            password.push_back(static_cast<char>(ch));
+
+            cout << '*';
+        }
+    }
+
+    cout << endl;
     users.push_back({username, password});
     cout << "Signed up successfully!\n";
 }
@@ -52,8 +81,36 @@ void login()
     string username, password;
     cout << "Enter username: ";
     cin >> username;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Enter password: ";
-    cin >> password;
+    password.clear();
+
+    int ch;
+
+    while ((ch = _getch()) != '\r')
+    {
+
+        if (ch == '\b')
+        {
+
+            if (!password.empty())
+            {
+
+                password.pop_back();
+
+                cout << "\b \b";
+            }
+        }
+        else
+        {
+
+            password.push_back(static_cast<char>(ch));
+
+            cout << '*';
+        }
+    }
+
+    cout << endl;
 
     for (auto &user : users)
     {
@@ -151,23 +208,22 @@ void loggedInMenu()
     }
 }
 
-void rentCarMenu()
-{
+void rentCarMenu() {
     int choice;
-    while (true)
-    {
+    while (true) {
         cout << "\n--- Available Cars ---\n";
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < cars.size(); i++) {
             cout << i + 1 << ". " << cars[i].Brand << " (" << cars[i].carType << ") - "
                  << cars[i].Color << " - $" << cars[i].pricePerDay << "/day\n";
         }
-        cout << "4. Go Back\n";
-        cout << "Enter car number to rent or 4 to go back: ";
+        int goBackOption = cars.size() + 1;
+        int addNewOption = cars.size() + 2;
+        cout << goBackOption << ". Go Back\n";
+        cout << addNewOption << ". Add New Car\n";
+        cout << "Enter your choice: ";
         cin >> choice;
 
-        if (choice >= 1 && choice <= 3)
-        {
+        if (choice >= 1 && choice <= cars.size()) {
             int days;
             cout << "For how many days do you want to rent the " << cars[choice - 1].Brand << "? ";
             cin >> days;
@@ -184,6 +240,7 @@ void rentCarMenu()
             cout << "\n=========== RENTAL RECEIPT ===========\n";
             cout << "Vehicle: " << cars[choice - 1].Brand << " (" << cars[choice - 1].carType << ")\n";
             cout << "Color  : " << cars[choice - 1].Color << "\n";
+            cout << "Speed  : " << cars[choice - 1].maxSpeed << "\n";
             cout << "Days   : " << days << "\n";
             cout << "Rate   : $" << cars[choice - 1].pricePerDay << " per day\n";
             cout << "------------------------------\n";
@@ -192,34 +249,61 @@ void rentCarMenu()
             string temp;
             cout << "Press any key to go back to car list...";
             cin >> temp;
-        }
-        else if (choice == 4)
-        {
+        } else if (choice == goBackOption) {
             return;
-        }
-        else
-        {
+        } else if (choice == addNewOption) {
+            float price;
+            string color, brand, type;
+            int speed;
+
+            cout << "Enter price per day: ";
+            while (!(cin >> price)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a number: ";
+            }
+
+            cin.ignore();
+            cout << "Enter color: ";
+            getline(cin, color);
+            cout << "Enter brand: ";
+            getline(cin, brand);
+            cout << "Enter car type: ";
+            getline(cin, type);
+
+            cout << "Enter max speed: ";
+            while (!(cin >> speed)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter an integer: ";
+            }
+
+            cars.push_back(Car(price, color, brand, type, speed));
+            cout << "New car added successfully!\n";
+        } else {
             cout << "Invalid choice. Try again.\n";
         }
     }
 }
-
 void rentBikeMenu()
 {
     int choice;
     while (true)
     {
         cout << "\n--- Available Bikes ---\n";
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < bikes.size(); i++) {
             cout << i + 1 << ". " << bikes[i].Brand << " (" << bikes[i].Type << ") - "
                  << bikes[i].Color << " - $" << bikes[i].pricePerDay << "/day\n";
         }
-        cout << "4. Go Back\n";
-        cout << "Enter bike number to rent or 4 to go back: ";
+        int goBackOption = bikes.size() + 1;
+        int addNewOption = bikes.size() + 2;
+        cout << goBackOption << ". Go Back\n";
+        cout << addNewOption << ". Add New Bike\n";
+        cout << "Enter your choice: ";
         cin >> choice;
 
-        if (choice >= 1 && choice <= 3)
+
+        if (choice >= 1 && choice <= bikes.size())
         {
             int days;
             cout << "For how many days do you want to rent the " << bikes[choice - 1].Brand << "? ";
@@ -246,12 +330,31 @@ void rentBikeMenu()
             cout << "Press any key to go back to bike list...";
             cin >> temp;
         }
-        else if (choice == 4)
-        {
+        else if (choice == goBackOption) {
             return;
-        }
-        else
-        {
+        } else if (choice == addNewOption) {
+            float price;
+            string color, brand, type;
+
+            cout << "Enter price per day: ";
+            while (!(cin >> price)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a number: ";
+            }
+
+            cin.ignore();
+            cout << "Enter color: ";
+            getline(cin, color);
+            cout << "Enter brand: ";
+            getline(cin, brand);
+            cout << "Enter bike type: ";
+            getline(cin, type);
+
+
+            bikes.push_back(Bike(price, color, brand, type));
+            cout << "New bike added successfully!\n";
+        } else {
             cout << "Invalid choice. Try again.\n";
         }
     }
